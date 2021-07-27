@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './css/main.css';
 import './scss/main.scss';
 import './index.html'
 
-import App from './App';
+import App from './ts/App';
 
 
 ReactDOM.render(
