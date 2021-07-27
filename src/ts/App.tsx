@@ -12,7 +12,7 @@ const App: FC = () => {
   return (
     <div className="wrapper">
       {getUsers.map((item, index) => {
-        <div key={item.id}>HI{item.body}</div>
+        return <div key={item.id}>HI{item.body}</div>
       })}
 
     </div>
