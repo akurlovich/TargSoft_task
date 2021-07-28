@@ -1,11 +1,5 @@
 import axios from "axios";
-
-export interface IUser {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+import { IUser } from './types/user';
 
 export default {
   
