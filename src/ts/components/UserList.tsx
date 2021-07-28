@@ -11,7 +11,7 @@ const UserList: FC = () => {
   const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   useEffect(() => {
-    fetchUsers(page, limit);
+    // fetchUsers(page, limit);
   }, [page]);
 
   if (loading) {

@@ -34,6 +34,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@fluentui/react": "^8.24.0",
     "@types/react-redux": "^7.1.18",
     "axios": "^0.21.1",
     "clean-webpack-plugin": "^4.0.0-alpha.0",

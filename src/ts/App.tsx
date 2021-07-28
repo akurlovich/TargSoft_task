@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
+import FluentUI from './components/FluentUIList';
 import UserList from './components/UserList';
-import model from './model';
-import { IUser } from './types/user';
 
 const App: FC = () => {
 
@@ -13,7 +12,8 @@ const App: FC = () => {
   
   return (
     <div>
-      <UserList/>
+      {/* <UserList/> */}
+      <FluentUI/>
     </div>
     // <div className="wrapper">
     //   {getUsers.map((item, index) => {
