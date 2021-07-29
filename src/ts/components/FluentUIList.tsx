@@ -1,16 +1,22 @@
-import { DetailsList, IColumn } from '@fluentui/react/lib/DetailsList';
-import React, { useEffect } from 'react';
+import { DetailsList, DetailsRow, IColumn, IDetailsFooterProps, IDetailsRowBaseProps } from '@fluentui/react/lib/DetailsList';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
+import { IUser, UserActionType } from '../types/user';
 
 const FluentUI: FC = () => {
   const {users, loading, error, posts, page, limit} = useTypedSelector(state => state.post);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const {fetchUsers, setPostsPage} = useActions();
+
+  // const [newPosts, setnewPosts] = useState<IUser[]>([])
 
   useEffect(() => {
     fetchUsers();
+    // setnewPosts(posts)
   }, [page]);
 
   if (loading) {
@@ -19,27 +25,6 @@ const FluentUI: FC = () => {
   if (error) {
     return <h1 style={{fontSize: '60px'}}>{error}</h1>
   }
-
-  const arr = [
-    {
-      name: '1111',
-      data: 123,
-      last: 'wwww',
-      email: 'rrrr',
-    },
-    {
-      name: '2222',
-      data: 2123,
-      last: 'wwww2',
-      email: 'rrrr2',
-    },
-    {
-      name: '3333',
-      data: 3123,
-      last: 'wwww3',
-      email: 'rrrr3',
-    },
-  ]
 
   const columns: IColumn[] = [
     {
@@ -64,6 +49,7 @@ const FluentUI: FC = () => {
       fieldName: 'title',
       minWidth: 160,
       maxWidth: 1600,
+      isMultiline: true,
     },
     {
       key: 'column4',
@@ -71,6 +57,7 @@ const FluentUI: FC = () => {
       fieldName: 'body',
       minWidth: 160,
       maxWidth: 1600,
+      isMultiline: true,
     },
     // {
       // key: 'column5',
@@ -88,12 +75,54 @@ const FluentUI: FC = () => {
     // }
   ]
 
+  const _onRenderDetailsFooter = (detailsFooterProps: any) => {
+    return (
+      <DetailsRow
+        {...detailsFooterProps}
+        // columns={detailsFooterProps.columns}
+        item={{}}
+        itemIndex={-1}
+        // groupNestingDepth={detailsFooterProps.groupNestingDepth}
+        // selectionMode={SelectionMode.single}
+        // selection={detailsFooterProps.selection}
+        onRenderItemColumn={_renderDetailsFooterItemColumn}
+        // onRenderCheck={_onRenderCheckForFooterRow}
+      />
+    );
+  };
+
+  const _renderDetailsFooterItemColumn: IDetailsRowBaseProps['onRenderItemColumn'] = (item, index, column) => {
+    if (column) {
+      return (
+        <div>
+          <b>{column.name}</b>
+        </div>
+      );
+    }
+    return undefined;
+  };
+
+  const clickItem = async (item: number) => {
+    console.log(item)
+    posts.splice(2, 5)
+    console.log(posts);
+    dispatch({type: UserActionType.FETCH_USERS_SUCCESS, payload: posts});
+    // const response = await axios.delete(`https://jsonplaceholder.typicode.com/posts/${item}`);
+    // console.log(response);
+    // prompt('kdfjskfj')
+  }
+  
   return (
     <div>
       <DetailsList
+        onActiveItemChanged={(index) => clickItem(index.id)}
+        // onItemInvoked={(index) => clickItem(index.id)}
+        
         items={posts}
         // compact={isCompactMode}
         columns={columns}
+        onRenderDetailsFooter={_onRenderDetailsFooter}
+
         // selectionMode={SelectionMode.none}
         // getKey={this._getKey}
         // setKey="none"
