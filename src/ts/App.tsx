@@ -11,7 +11,7 @@ const App: FC = () => {
   // }, [])
   
   return (
-    <div>
+    <div className='wrapper'>
       {/* <UserList/> */}
       <FluentUI/>
     </div>
