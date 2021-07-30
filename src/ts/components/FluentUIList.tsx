@@ -1,4 +1,4 @@
-import { DetailsList, DetailsRow, IColumn, IDetailsFooterProps, IDetailsRowBaseProps } from '@fluentui/react/lib/DetailsList';
+import { DetailsList, DetailsRow, IColumn, IDetailsFooterProps, IDetailsRowBaseProps, SelectionMode } from '@fluentui/react/lib/DetailsList';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
@@ -6,11 +6,20 @@ import { useDispatch } from 'react-redux';
 import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { IUser, UserActionType } from '../types/user';
+import { initializeIcons } from '@fluentui/react/lib/Icons';
+import { IStackTokens } from '@fluentui/react/lib/components/Stack/Stack.types';
+import { Stack } from '@fluentui/react/lib/components/Stack';
+import { DefaultButton } from '@fluentui/react/lib/components/Button';
+import { PrimaryButton } from '@fluentui/react/lib/components/Button';
+
+initializeIcons(undefined, { disableWarnings: true });
 
 const FluentUI: FC = () => {
-  const {users, loading, error, posts, page, limit} = useTypedSelector(state => state.post);
+  let {users, loading, error, posts, page, limit} = useTypedSelector(state => state.post);
   const dispatch = useDispatch();
   const {fetchUsers, setPostsPage} = useActions();
+  const [popup, setpopup] = useState(false);
+  const [chooseItem, setchooseItem] = useState(NaN)
 
   // const [newPosts, setnewPosts] = useState<IUser[]>([])
 
@@ -59,20 +68,6 @@ const FluentUI: FC = () => {
       maxWidth: 1600,
       isMultiline: true,
     },
-    // {
-      // key: 'column5',
-      // name: 'File Size',
-      // fieldName: 'fileSizeRaw',
-      // minWidth: 70,
-      // maxWidth: 90,
-      // isResizable: true,
-      // isCollapsible: true,
-      // data: 'number',
-      // onColumnClick: this._onColumnClick,
-      // onRender: (item: IDocument) => {
-      //   return <span>{item.fileSize}</span>;
-      // },
-    // }
   ]
 
   const _onRenderDetailsFooter = (detailsFooterProps: any) => {
@@ -102,19 +97,43 @@ const FluentUI: FC = () => {
     return undefined;
   };
 
-  const clickItem = async (item: number) => {
-    console.log(item)
-    posts.splice(2, 5)
+  const clickItem = async (value: number) => {
+
+    setpopup(true);
+    setchooseItem(value)
+    
+    // console.log(value)
+    // posts.splice(item - 1, 1)
+    // posts = posts.filter(item => item.id !== value)
+
+    // console.log(posts);
+    // dispatch({type: UserActionType.FETCH_USERS_SUCCESS, payload: posts});
+
+  }
+  const stackTokens: IStackTokens = { childrenGap: 40 };
+  const canselHandler = () => {
+    setpopup(false);
+  }
+  const deleteHandler = () => {
+    setpopup(false);
+    posts = posts.filter(item => item.id !== chooseItem)
+
     console.log(posts);
     dispatch({type: UserActionType.FETCH_USERS_SUCCESS, payload: posts});
-    // const response = await axios.delete(`https://jsonplaceholder.typicode.com/posts/${item}`);
-    // console.log(response);
-    // prompt('kdfjskfj')
+
   }
-  
   return (
     <div>
+       {popup && <div className='popup_container' style={{width: '300px', height: '300px', background: 'red', position: 'absolute', top: '0px', left: '0px', zIndex: 1000}}>
+          <Stack horizontal tokens={stackTokens}>
+            <DefaultButton text="Delete" onClick={deleteHandler} allowDisabledFocus />
+            <PrimaryButton text="Cansel" onClick={canselHandler} allowDisabledFocus  />
+          </Stack>
+        </div>}
       <DetailsList
+        selectionMode={SelectionMode.none}
+        // disableSelectionZone={true}
+        // selectionPreservedOnEmptyClick={true}
         onActiveItemChanged={(index) => clickItem(index.id)}
         // onItemInvoked={(index) => clickItem(index.id)}
         
