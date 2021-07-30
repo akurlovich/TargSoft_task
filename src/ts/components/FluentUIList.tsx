@@ -25,8 +25,8 @@ const FluentUI: FC = () => {
 
   useEffect(() => {
     fetchUsers();
-    // setnewPosts(posts)
-  }, [page]);
+    console.log(posts);
+  }, []);
 
   if (loading) {
     return <h1 style={{fontSize: '60px'}}>Loading...</h1>
@@ -38,31 +38,31 @@ const FluentUI: FC = () => {
   const columns: IColumn[] = [
     {
       key: 'column1',
-      name: 'File Type',
-      fieldName: 'userId',
+      name: 'User',
+      fieldName: 'userName',
       minWidth: 160,
-      maxWidth: 1600,
+      maxWidth: 160,
       isResizable: true,
       isCollapsible: true,
     },
-    {
-      key: 'column2',
-      name: 'File Type2',
-      fieldName: 'id',
-      minWidth: 160,
-      maxWidth: 1600,
-    },
+    // {
+    //   key: 'column2',
+    //   name: 'File Type2',
+    //   fieldName: 'id',
+    //   minWidth: 160,
+    //   maxWidth: 1600,
+    // },
     {
       key: 'column3',
-      name: 'File Type3',
+      name: 'Post title',
       fieldName: 'title',
       minWidth: 160,
-      maxWidth: 1600,
+      maxWidth: 400,
       isMultiline: true,
     },
     {
       key: 'column4',
-      name: 'File Type4',
+      name: 'Post',
       fieldName: 'body',
       minWidth: 160,
       maxWidth: 1600,
@@ -124,13 +124,18 @@ const FluentUI: FC = () => {
   }
   return (
     <div>
-       {popup && <div className='popup_container' style={{width: '300px', height: '300px', background: 'red', position: 'absolute', top: '0px', left: '0px', zIndex: 1000}}>
-          <Stack horizontal tokens={stackTokens}>
-            <DefaultButton text="Delete" onClick={deleteHandler} allowDisabledFocus />
-            <PrimaryButton text="Cansel" onClick={canselHandler} allowDisabledFocus  />
-          </Stack>
-        </div>}
+       {popup && 
+        <div className='popup__wrapper'>
+          <div className='popup_container' style={{width: '300px', height: '300px', background: 'red', position: 'absolute', top: '0px', left: '0px', zIndex: 1000}}>
+            <Stack horizontal tokens={stackTokens}>
+              <DefaultButton text="Delete" onClick={deleteHandler} allowDisabledFocus />
+              <PrimaryButton text="Cansel" onClick={canselHandler} allowDisabledFocus  />
+            </Stack>
+          </div>
+        </div>
+        }
       <DetailsList
+        className='list__item'
         selectionMode={SelectionMode.none}
         // disableSelectionZone={true}
         // selectionPreservedOnEmptyClick={true}
