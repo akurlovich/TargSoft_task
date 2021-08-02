@@ -14,7 +14,7 @@ import { IUser, UserAction, UserActionType } from "../../types/user"
       );
       const fetchAllUsers = await axios.get('https://jsonplaceholder.typicode.com/users/');
       const allUsers = fetchAllUsers.data;
-      console.log(allUsers[0].name)
+      // console.log(allUsers[0].name)
       const res: IUser[] = response.data;
       for (let i = 0; i < res.length; i++) {
         switch (res[i].userId) {
