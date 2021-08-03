@@ -11,6 +11,7 @@ import { IStackTokens } from '@fluentui/react/lib/components/Stack/Stack.types';
 import { Stack } from '@fluentui/react/lib/components/Stack';
 import { DefaultButton } from '@fluentui/react/lib/components/Button';
 import { PrimaryButton } from '@fluentui/react/lib/components/Button';
+import { TextField } from '@fluentui/react/lib/components/TextField';
 
 initializeIcons(undefined, { disableWarnings: true });
 
@@ -19,7 +20,7 @@ const FluentUI: FC = () => {
   const dispatch = useDispatch();
   const {fetchUsers, setPostsPage} = useActions();
   const [popup, setpopup] = useState(false);
-  const [chooseItem, setchooseItem] = useState(NaN)
+  const [chooseItem, setchooseItem] = useState<IUser>();
 
   // const [newPosts, setnewPosts] = useState<IUser[]>([])
 
@@ -97,7 +98,7 @@ const FluentUI: FC = () => {
     return undefined;
   };
 
-  const clickItem = async (value: number) => {
+  const clickItem = async (value: IUser) => {
 
     setpopup(true);
     setchooseItem(value)
@@ -116,7 +117,7 @@ const FluentUI: FC = () => {
   }
   const deleteHandler = () => {
     setpopup(false);
-    posts = posts.filter(item => item.id !== chooseItem)
+    posts = posts.filter(item => item.id !== chooseItem?.id)
 
     console.log(posts);
     dispatch({type: UserActionType.FETCH_USERS_SUCCESS, payload: posts});
@@ -127,10 +128,21 @@ const FluentUI: FC = () => {
        {popup && 
         <div className='popup__wrapper'>
           <div className='popup_container' style={{width: '300px', height: '300px', background: 'red', position: 'absolute', top: '0px', left: '0px', zIndex: 1000}}>
-            <Stack horizontal tokens={stackTokens}>
-              <DefaultButton text="Delete" onClick={deleteHandler} allowDisabledFocus />
-              <PrimaryButton text="Cansel" onClick={canselHandler} allowDisabledFocus  />
-            </Stack>
+            <h1>Make you choiсe for user {chooseItem?.userName}:</h1>
+            <div className="popup_choice">
+              <div className="delete_post">
+                <h3>confirm to delete post</h3>
+                <div>Post title: {chooseItem?.title}</div>
+                <div>Post body: {chooseItem?.body}</div>
+                <DefaultButton text="Delete" onClick={deleteHandler} allowDisabledFocus />
+              </div>
+              <div className="add_post">
+                <TextField label="Post title" />
+                <TextField label="Post body" />
+                <PrimaryButton text="Add post" onClick={canselHandler} allowDisabledFocus />
+              </div>
+            </div>
+              <PrimaryButton text="Cansel" onClick={canselHandler} allowDisabledFocus />
           </div>
         </div>
         }
@@ -139,7 +151,7 @@ const FluentUI: FC = () => {
         selectionMode={SelectionMode.none}
         // disableSelectionZone={true}
         // selectionPreservedOnEmptyClick={true}
-        onActiveItemChanged={(index) => clickItem(index.id)}
+        onActiveItemChanged={(index: IUser) => clickItem(index)}
         // onItemInvoked={(index) => clickItem(index.id)}
         
         items={posts}
