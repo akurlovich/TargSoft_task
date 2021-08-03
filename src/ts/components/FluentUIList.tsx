@@ -127,7 +127,7 @@ const FluentUI: FC = () => {
     <div>
        {popup && 
         <div className='popup__wrapper'>
-          <div className='popup_container' style={{width: '300px', height: '300px', background: 'red', position: 'absolute', top: '0px', left: '0px', zIndex: 1000}}>
+          <div className='popup_container'>
             <h1>Make you choiсe for user {chooseItem?.userName}:</h1>
             <div className="popup_choice">
               <div className="delete_post">

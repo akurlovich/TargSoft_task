@@ -2,13 +2,19 @@
   cursor: pointer;
 }
 .popup_container {
-  width: 300px;
-  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 500px;
+  // height: 500px;
   background: red;
   // position: absolute;
   top: 0px;
   left: 0px;
-  z-index: 1000
+  z-index: 1000;
+  padding: 20px;
 }
 .popup__wrapper {
   width: 100%;
@@ -26,4 +32,8 @@
 }
 .popup_choice {
   display: flex;
+  gap: 15px;
+}
+.delete_post {
+  width: 50%;
 }
