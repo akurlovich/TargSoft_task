@@ -1,17 +1,16 @@
-import { DetailsList, DetailsRow, IColumn, IDetailsFooterProps, IDetailsRowBaseProps, SelectionMode } from '@fluentui/react/lib/DetailsList';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { FC } from 'react';
-import { useDispatch } from 'react-redux';
-import { useActions } from '../hooks/useActions';
-import { useTypedSelector } from '../hooks/useTypedSelector';
-import { IUser, UserActionType } from '../types/user';
-import { initializeIcons } from '@fluentui/react/lib/Icons';
-import { IStackTokens } from '@fluentui/react/lib/components/Stack/Stack.types';
-import { Stack } from '@fluentui/react/lib/components/Stack';
-import { DefaultButton } from '@fluentui/react/lib/components/Button';
-import { PrimaryButton } from '@fluentui/react/lib/components/Button';
-import { TextField } from '@fluentui/react/lib/components/TextField';
+import { DetailsList, DetailsRow, IColumn, IDetailsFooterProps,
+IDetailsRowBaseProps, SelectionMode } from '@fluentui/react/lib/DetailsList';
+import axios from 'axios'; import React, { useEffect, useState }
+from 'react'; import { FC } from 'react'; import { useDispatch }
+from 'react-redux'; import { useActions } from '../hooks/useActions'; import
+{ useTypedSelector } from '../hooks/useTypedSelector'; import { IUser,
+UserActionType } from '../types/user'; import { initializeIcons }
+from '@fluentui/react/lib/Icons'; import { IStackTokens }
+from '@fluentui/react/lib/components/Stack/Stack.types'; import { Stack }
+from '@fluentui/react/lib/components/Stack'; import { DefaultButton }
+from '@fluentui/react/lib/components/Button'; import { PrimaryButton }
+from '@fluentui/react/lib/components/Button'; import { TextField }
+from '@fluentui/react/lib/components/TextField';
 
 initializeIcons(undefined, { disableWarnings: true });
 
@@ -131,12 +130,13 @@ const FluentUI: FC = () => {
             <h1>Make you choiсe for user {chooseItem?.userName}:</h1>
             <div className="popup_choice">
               <div className="delete_post">
-                <h3>confirm to delete post</h3>
+                <h3>Confirm to delete post:</h3>
                 <div>Post title: {chooseItem?.title}</div>
                 <div>Post body: {chooseItem?.body}</div>
                 <DefaultButton text="Delete" onClick={deleteHandler} allowDisabledFocus />
               </div>
               <div className="add_post">
+                <h3>Add new post:</h3>
                 <TextField label="Post title" />
                 <TextField label="Post body" />
                 <PrimaryButton text="Add post" onClick={canselHandler} allowDisabledFocus />
