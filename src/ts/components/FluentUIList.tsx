@@ -1,7 +1,7 @@
 import { DetailsList, DetailsRow, IColumn, IDetailsFooterProps,
 IDetailsRowBaseProps, SelectionMode } from '@fluentui/react/lib/DetailsList';
 import axios from 'axios'; import React, { useEffect, useState }
-from 'react'; import { FC } from 'react'; import { useDispatch }
+from 'react'; import { FC } from 'react'; import { useDispatch, useStore }
 from 'react-redux'; import { useActions } from '../hooks/useActions'; import
 { useTypedSelector } from '../hooks/useTypedSelector'; import { IUser,
 UserActionType } from '../types/user'; import { initializeIcons }
@@ -19,18 +19,21 @@ const FluentUI: FC = () => {
   const dispatch = useDispatch();
   const {fetchUsers, setPostsPage} = useActions();
   const [popup, setpopup] = useState(false);
-  const [chooseItem, setchooseItem] = useState<IUser>();
-
-  // const [newPosts, setnewPosts] = useState<IUser[]>([])
+  const [chooseItem, setchooseItem] = useState<IUser>({
+    userName: '',
+    userId: 1,
+    id: 1,
+    title: '',
+    body: '',
+  });
+  const [postTitle, setPostTitle] = useState('');
+  const [bodyTitle, setBodyTitle] = useState('');
 
   useEffect(() => {
     fetchUsers();
     console.log(posts);
   }, []);
 
-  // if (loading) {
-  //   return <h1 style={{fontSize: '60px'}}>Loading...</h1>
-  // }
   if (error) {
     return <h1 style={{fontSize: '60px'}}>{error}</h1>
   }
@@ -45,13 +48,6 @@ const FluentUI: FC = () => {
       isResizable: true,
       isCollapsible: true,
     },
-    // {
-    //   key: 'column2',
-    //   name: 'File Type2',
-    //   fieldName: 'id',
-    //   minWidth: 160,
-    //   maxWidth: 1600,
-    // },
     {
       key: 'column3',
       name: 'Post title',
@@ -74,14 +70,9 @@ const FluentUI: FC = () => {
     return (
       <DetailsRow
         {...detailsFooterProps}
-        // columns={detailsFooterProps.columns}
         item={{}}
         itemIndex={-1}
-        // groupNestingDepth={detailsFooterProps.groupNestingDepth}
-        // selectionMode={SelectionMode.single}
-        // selection={detailsFooterProps.selection}
         onRenderItemColumn={_renderDetailsFooterItemColumn}
-        // onRenderCheck={_onRenderCheckForFooterRow}
       />
     );
   };
@@ -100,15 +91,7 @@ const FluentUI: FC = () => {
   const clickItem = async (value: IUser) => {
 
     setpopup(true);
-    setchooseItem(value)
-    
-    // console.log(value)
-    // posts.splice(item - 1, 1)
-    // posts = posts.filter(item => item.id !== value)
-
-    // console.log(posts);
-    // dispatch({type: UserActionType.FETCH_USERS_SUCCESS, payload: posts});
-
+    setchooseItem(value);
   }
   const stackTokens: IStackTokens = { childrenGap: 40 };
   const canselHandler = () => {
@@ -118,9 +101,25 @@ const FluentUI: FC = () => {
     setpopup(false);
     posts = posts.filter(item => item.id !== chooseItem?.id)
 
-    console.log(posts);
+    // console.log(posts);
     dispatch({type: UserActionType.FETCH_USERS_SUCCESS, payload: posts});
-
+  }
+  const titleHandler = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setPostTitle(event.currentTarget.value)
+  }
+  const bodyHandler = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setBodyTitle(event.currentTarget.value)
+  }
+  const addPostHandler = () => {
+    
+    setpopup(false);
+    const post: IUser = {id: (posts.length + 1), userId: chooseItem.userId, userName: chooseItem.userName, title: postTitle, body: bodyTitle}
+    // posts.push(post)
+    posts.splice((chooseItem.id - 1), 0, post)
+    dispatch({type: UserActionType.FETCH_USERS_SUCCESS, payload: posts});
+    setBodyTitle('');
+    setPostTitle('');
+    
   }
   return (
     <div className='container'>
@@ -140,9 +139,9 @@ const FluentUI: FC = () => {
               </div>
               <div className="add_post">
                 <h3>Add new post:</h3>
-                <TextField label="Post title" multiline rows={2}/>
-                <TextField label="Post body" multiline rows={4}/>
-                <PrimaryButton text="Add post" onClick={canselHandler} allowDisabledFocus />
+                <TextField onChange={titleHandler} value={postTitle} label="Post title" multiline rows={2}/>
+                <TextField onChange={bodyHandler} value={bodyTitle} label="Post body" multiline rows={4}/>
+                <PrimaryButton text="Add post" onClick={addPostHandler} allowDisabledFocus />
               </div>
             </div>
               <PrimaryButton text="Cansel" onClick={canselHandler} allowDisabledFocus />
@@ -152,26 +151,11 @@ const FluentUI: FC = () => {
       <DetailsList
         className='list__item'
         selectionMode={SelectionMode.none}
-        // disableSelectionZone={true}
-        // selectionPreservedOnEmptyClick={true}
         onActiveItemChanged={(index: IUser) => clickItem(index)}
-        // onItemInvoked={(index) => clickItem(index.id)}
-        
         items={posts}
-        // compact={isCompactMode}
         columns={columns}
         onRenderDetailsFooter={_onRenderDetailsFooter}
-
-        // selectionMode={SelectionMode.none}
-        // getKey={this._getKey}
-        // setKey="none"
-        // layoutMode={DetailsListLayoutMode.justified}
-        // isHeaderVisible={true}
-        // onItemInvoked={this._onItemInvoked}
       />
-      {/* {posts.map(user => 
-        <div key={user.id}>{user.title}</div>  
-      )} */}
     </div>
   );
 };
