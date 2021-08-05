@@ -28,9 +28,9 @@ const FluentUI: FC = () => {
     console.log(posts);
   }, []);
 
-  if (loading) {
-    return <h1 style={{fontSize: '60px'}}>Loading...</h1>
-  }
+  // if (loading) {
+  //   return <h1 style={{fontSize: '60px'}}>Loading...</h1>
+  // }
   if (error) {
     return <h1 style={{fontSize: '60px'}}>{error}</h1>
   }
@@ -64,7 +64,7 @@ const FluentUI: FC = () => {
       key: 'column4',
       name: 'Post',
       fieldName: 'body',
-      minWidth: 160,
+      minWidth: 360,
       maxWidth: 1600,
       isMultiline: true,
     },
@@ -123,8 +123,11 @@ const FluentUI: FC = () => {
 
   }
   return (
-    <div>
-       {popup && 
+    <div className='container'>
+      <h1 className="posts_title">User's posts</h1>
+      <h2>For delete or add new post, click on post row.</h2>
+        {loading && <h1 style={{fontSize: '60px'}}>Loading...</h1>}
+        {popup && 
         <div className='popup__wrapper'>
           <div className='popup_container'>
             <h1>Make you choiсe for user {chooseItem?.userName}:</h1>
@@ -132,13 +135,13 @@ const FluentUI: FC = () => {
               <div className="delete_post">
                 <h3>Confirm to delete post:</h3>
                 <div>Post title: {chooseItem?.title}</div>
-                <div>Post body: {chooseItem?.body}</div>
+                <div className='post_body'>Post body: {chooseItem?.body}</div>
                 <DefaultButton text="Delete" onClick={deleteHandler} allowDisabledFocus />
               </div>
               <div className="add_post">
                 <h3>Add new post:</h3>
-                <TextField label="Post title" />
-                <TextField label="Post body" />
+                <TextField label="Post title" multiline rows={2}/>
+                <TextField label="Post body" multiline rows={4}/>
                 <PrimaryButton text="Add post" onClick={canselHandler} allowDisabledFocus />
               </div>
             </div>

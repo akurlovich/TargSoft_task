@@ -45,6 +45,9 @@
 h1 {
   font-size: 22px;
 }
+h2 {
+  font-size: 22px;
+}
 h3 {
   font-size: 18px;
   font-weight: 600;
@@ -53,4 +56,17 @@ h3 {
   gap: 10px;
   display: flex;
   flex-direction: column;
+}
+.posts_title {
+  font-size: 36px;
+}
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.post_body {
+  flex: 1 0 auto;
 }
