@@ -1,16 +1,15 @@
-import { DetailsList, DetailsRow, IColumn, IDetailsFooterProps,
-IDetailsRowBaseProps, SelectionMode } from '@fluentui/react/lib/DetailsList';
-import axios from 'axios'; import React, { useEffect, useState }
-from 'react'; import { FC } from 'react'; import { useDispatch, useStore }
-from 'react-redux'; import { useActions } from '../hooks/useActions'; import
-{ useTypedSelector } from '../hooks/useTypedSelector'; import { IUser,
-UserActionType } from '../types/user'; import { initializeIcons }
-from '@fluentui/react/lib/Icons'; import { IStackTokens }
-from '@fluentui/react/lib/components/Stack/Stack.types'; import { Stack }
-from '@fluentui/react/lib/components/Stack'; import { DefaultButton }
-from '@fluentui/react/lib/components/Button'; import { PrimaryButton }
-from '@fluentui/react/lib/components/Button'; import { TextField }
-from '@fluentui/react/lib/components/TextField';
+import { DetailsList, DetailsRow, IColumn, IDetailsRowBaseProps, SelectionMode } from '@fluentui/react/lib/DetailsList';
+import React, { useEffect, useState } from 'react'; 
+import { FC } from 'react'; 
+import { useDispatch } from 'react-redux'; 
+import { useActions } from '../hooks/useActions'; 
+import { useTypedSelector } from '../hooks/useTypedSelector'; 
+import { IUser, UserActionType } from '../types/user'; 
+import { initializeIcons } from '@fluentui/react/lib/Icons'; 
+import { IStackTokens } from '@fluentui/react/lib/components/Stack/Stack.types'; 
+import { DefaultButton } from '@fluentui/react/lib/components/Button'; 
+import { PrimaryButton } from '@fluentui/react/lib/components/Button'; 
+import { TextField } from '@fluentui/react/lib/components/TextField';
 
 initializeIcons(undefined, { disableWarnings: true });
 
@@ -101,7 +100,6 @@ const FluentUI: FC = () => {
     setpopup(false);
     posts = posts.filter(item => item.id !== chooseItem?.id)
 
-    // console.log(posts);
     dispatch({type: UserActionType.FETCH_USERS_SUCCESS, payload: posts});
   }
   const titleHandler = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -114,7 +112,6 @@ const FluentUI: FC = () => {
     
     setpopup(false);
     const post: IUser = {id: (posts.length + 1), userId: chooseItem.userId, userName: chooseItem.userName, title: postTitle, body: bodyTitle}
-    // posts.push(post)
     posts.splice((chooseItem.id - 1), 0, post)
     dispatch({type: UserActionType.FETCH_USERS_SUCCESS, payload: posts});
     setBodyTitle('');
