@@ -65,12 +65,12 @@ module.exports = {
       {
           test: /\.css$/i,
           use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            // options: {
-            //   hmr: isDev
-            // },
-          },
+          // {
+          //   loader: MiniCssExtractPlugin.loader,
+          //   // options: {
+          //   //   hmr: isDev
+          //   // },
+          // },
           'css-loader',
           'style-loader'
         ],
